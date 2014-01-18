@@ -48,6 +48,8 @@
 
                 var playlist = models.Playlist.fromURI('spotify:user:billboard.com:playlist:6UeSakyzhiEt4NB3UAd6NQ');
                 var list = List.forPlaylist(playlist);
+                list.height = 'fixed';
+
     
                 document.getElementById('playlist-player').appendChild(list.node);
                 list.init();
