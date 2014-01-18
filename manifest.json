@@ -26,6 +26,7 @@
     ],
 
     "RequiredPermissions": [
-        "http://queueup.herokuapp.com/"
+        "http://queueup.herokuapp.com/",
+        "http://localhost/"
     ]
 }

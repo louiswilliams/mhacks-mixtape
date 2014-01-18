@@ -1,5 +1,5 @@
- var WEB_URL = "http://queueup.herokuapp.com";
-// var WEB_URL = "http://127.0.0.1:3000";
+var WEB_URL = "http://queueup.herokuapp.com";
+// var WEB_URL = "http://localhost:3000";
 var WEB_USER_AUTH_PATH = "/user/auth";
 var WEB_PLAYLIST_CREATE_PATH = "/playlist/create.json";
 var WEB_PLAYLIST_SHOW_PATH = "/playlist"
