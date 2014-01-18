@@ -16,27 +16,28 @@
         
         <div class="centered">
         
-        <a href="/index.html"><img id="logo" src="queueup_logo.png"></a>
-        <!-- <h1>queue up</h1> -->
-        <br>
-        <input class="QupInput" id="playlistCode" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
-        <br>
-        
-        <button class="QupButton" id="Create">Create</button>
-        <button class="QupButton" id="Join" >Join</button>
-        
-        </div>
+            <a href="/index.html"><img id="logo" src="queueup_logo.png"></a>
+            <!-- <h1>queue up</h1> -->
+            <br>
+            <input class="QupInput" id="playlistCode" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
+            <br>
             
-        <br>
-        <br>
+            <button class="QupButton" id="Create">Create</button>
+            <button class="QupButton" id="Join" >Join</button>
+            
+            <div id="user_playlists">
+            </div>
+            <br>
+            <br>
 
-        <script>
-            $("#Create").click(function(event) {
-                code = $("#playlistCode").val();
-                create_playlist(code);
-            });
-        </script>
-        <div id="single-track-player"></div>
+            <script>
+                $("#Create").click(function(event) {
+                    code = $("#playlistCode").val();
+                    create_playlist(code);
+                });
+            </script>
+            <div id="single-track-player"></div>
+        </div>
 <!--    
         
         <script>

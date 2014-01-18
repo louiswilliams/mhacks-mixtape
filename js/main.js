@@ -96,7 +96,6 @@ require([
 function create_playlist(code) {
     $.post(WEB_URL + WEB_PLAYLIST_CREATE_PATH, {code: code}).done(function(data) {
         console.log(data);
-        alert(data);
         window.location.href="playlistview.html"
     });
 }

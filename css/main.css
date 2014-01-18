@@ -113,3 +113,21 @@ body {
     padding-right: 14px;
     
 }
+
+#playlist_list {
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+}
+
+#playlist_list h2 pre.code {
+   background: rgba(255,255,255,0.2);
+   border: 0px solid #ffffff;
+   border-radius: 5px;    
+   color: #FFFFFF;
+}
+
+#playlist_list h2 pre.code a{
+    font-size: 16pt;
+    color: #FFFFFF;
+}
