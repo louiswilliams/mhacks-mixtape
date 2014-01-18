@@ -3,51 +3,99 @@ html {
 }
 
 body {
-    width: 200;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
-    text-align:center;
+    #text-align:center;
 }
 
-h1 {
-    color: #74b301;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 55px;
+.centered {
+    text-align:center;   
 }
 
-input{
+#logo{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.QupInput{
     text-transform: uppercase;
     font-family: monospace;
     font-size: 30px;
     color: #000000;
     background-color: #ffffff;
-    #border-color: #74b301;
     border-style:outset;
     text-align:center;
     padding-top:6px;
     padding-bottom:6px;
     padding-left:2px;
-    padding-right: 2px;
-    width: 229px;
-    margin-left:4px;
-    margin-right:0px;
-    border-radius:2px;
+    width: 232px;
 }
 
-button{
+.QupButton{
     color: #ffffff;
     background-color: #74b301;
     border-style:outset;
     border-color:#74b301;
+    border-radius: 2px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 26px;
-    width: 117px;
-    border-radius: 2px;
-    padding-top:2px;
-    padding-bottom:2px;
-    padding-left: 14px;
-    padding-right: 14px;
     margin-left:0px;
     margin-right:0px;
     margin-top:0px;
+}
+
+#Create{
+    width: 117px;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+#Join{
+    width: 117px;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+#Upvote{
+    padding-top:4px;
+    padding-bottom:2px;
+    padding-left: 16px;
+    padding-right: 16px;
+    
+    margin-left: 10%;
+    margin-right: auto;
+}
+
+#SongData{
+    font-size: 30px;
+    color: #000000;
+    background-color: #ffffff;
+    border-style:outset;
+    text-align:center;
+    border-radius:2px;
+    
+    #text-overflow:ellipsis;
+    
+    width: 70%;
+    max-width: 70%;
+    
+    overflow:hidden;
+    display:inline-flex;
+    white-space:nowrap;
+    
+    text-align: left;
+    
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    
+    margin-top:4px;
+    
+    padding-top:4px;
+    padding-bottom:2px;
+    padding-left: 14px;
+    padding-right: 14px;
+    
 }

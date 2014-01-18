@@ -5,20 +5,39 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     
-    
-    
     <body>
         
-        <img src="queueup_logo.png">
+        <div class="centered">
+        
+        <img id="logo" src="queueup_logo.png">
         <!-- <h1>queue up</h1> -->
         <br>
-        <input placeholder="playlist" type="text" maxlength="10" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"/>
+        <input class="QupInput" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
         <br>
         
-        <button onclick="">Create</button>
-        <button onclick="">Join</button>
+        <button class="QupButton" id="Create" onclick="  ">Create</button>
+        <button class="QupButton" id="Join" onclick="  ">Join</button>
+        
+        </div>
+            
+        <br>
+        <br>
+        
+        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        <span id="SongData"> Bound 3 - Seth Rogan  </span>
+        <br>
+        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        <span id="SongData"> Test 2 ))(09dfasdvz>N - Kanye West  </span>
+        <br>
+        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        <span id="SongData"> Rawnald Gregory Erickson asdf the Second - Starfucker  </span>
+        <br>
+        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        <span id="SongData"> Bound 3 - laisdf  </span>
+        <br>
+        
+        
         
     </body>
-    
     
 </html>
