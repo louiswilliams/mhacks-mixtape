@@ -30,7 +30,6 @@
         <br>
         <br>
  
-        <div id="playlist-player"></div>
         
         <script>
             
@@ -38,23 +37,6 @@
                 $(this).css('color', '#ff0000');
             });
             
-
-            $("#Create").click(function(event) {
-                code = $("#playlistCode").val();
-                create_playlist(code);
-
-            });
-            require(['$api/models', '$views/list#List'], 
-                function(models, List) {
-
-                var playlist = models.Playlist.fromURI('spotify:user:12101309863:playlist:5QKCLXpj24f0tqbqatPFFJ');
-                var list = List.forPlaylist(playlist);
-                list.height = 'fixed';
-
-    
-                document.getElementById('playlist-player').appendChild(list.node);
-                list.init();
-                });
       //      require([
     //            '$api/models', '$views/image#Image'
   //          ], function(models, Image) {

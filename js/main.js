@@ -5,8 +5,10 @@ var WEB_PLAYLIST_CREATE_PATH = "/playlist/create.json";
 var WEB_PLAYLIST_SHOW_PATH = "/playlist"
 
 require([
-    '$api/models'
-], function(models) {
+    '$api/models',
+    '$views/list#List',
+    '$api/toplists#Toplist'
+], function(models, List, Toplist) {
     var spotify_user; //Spotify's user model
     var user; // User object retrieved from server
     var playlists;
@@ -33,16 +35,8 @@ require([
 
             list_html = "<div id='playlist_list'>";
             $.each(user.playlists, function(i, pl) {
-                playlist = models.Playlist.createTemporary(pl.code);
-                if (pl.tracks){
-                    $.each(pl.tracks, function(j, tr) {
-                        track = models.Track.fromURI(tr.uri);
-                    });   
-                }
-
-                // playlists.add(value);
                 list_html += "<h2><pre class='code'><a href='"
-                    + "spotify:app:queueup:playlist:show:"
+                    + "spotify:app:queueup:playlist:"
                     + pl.code + "'>" + pl.code.toUpperCase() + "</a></pre></h2>";
             });
             list_html += "</div>"
@@ -51,21 +45,46 @@ require([
     }
 
     function load_playlist(code) {
-        $("#playlist_view").slideDown(1000);
-        view_html = "<h1 class='center'>Playlist Code: <pre class='code'>";
-        view_html += code.toUpperCase() + "</pre></h1>";
-
+        var trackArr;
         $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
-            .success(function(data) {
-                view_html += data;
+            .done(function(data) {
+                console.log(data["tracks"]);
+                $.each(data["tracks"], function(i, val) {
+                    alert();
+                });
+                // trackArray; 
         });
 
-        $("#playlist_view").html(view_html);
+        // var arr = [models.Track.fromURI("spotify:track:64uuKDv6dm6PuUOA3PBQaS")];
+        // models.Playlist.createTemporary(code + "_" + new Date().getTime())
+        //   .done(function (playlist) {
+        //     playlist.tracks.add.apply(playlist.tracks, arr).done(function () {
+        //         // Create list
+        //         alert();
+
+        //         var list = List.forCollection(playlist, {
+        //           style: 'rounded'
+        //         });
+
+        //         $('#playlist-player').appendChild(list.node);
+        //         list.init();
+        //     });
+        // });
+        // var list = List.forPlaylist(playlistPromise.setDone());
+
+        // document.getElementById('playlist-player').appendChild(list.node);
+        // list.init();
+
+
+
+
+        // $("#playlist_view").html(view_html);
 
     }
 
     function arguments() {
         var args = models.application.arguments;
+        var code;
         if (args) {
             var lastArg = args[args.length - 1];
             if (lastArg == 'index') {
@@ -74,16 +93,8 @@ require([
         }
 
         if (args[0] == "playlist") {
-            var action = args[1];
-            if (action == "show") {
-                var code = args[2];
-                load_playlist(code);
-            }
-            else if (action == "create"){
-                create_playlist(function(data) {
-                    load_playlist(data.code);
-                });
-            }
+            var code = args[1];
+            load_playlist(code);
         }
     }
 
@@ -96,7 +107,7 @@ require([
 function create_playlist(code) {
     $.post(WEB_URL + WEB_PLAYLIST_CREATE_PATH, {code: code}).done(function(data) {
         console.log(data);
-        window.location.href="playlistview.html"
+        window.location.href="spotify:app:queueup:playlist:" + code;
     });
 }
 
