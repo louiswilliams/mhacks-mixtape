@@ -28,8 +28,8 @@ input{
     padding-bottom:6px;
     padding-left:2px;
     padding-right: 2px;
-    width: 246px;
-    margin-left:3px;
+    width: 229px;
+    margin-left:4px;
     margin-right:0px;
     border-radius:2px;
 }
@@ -40,11 +40,11 @@ button{
     border-style:outset;
     border-color:#74b301;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    width: 125px;
+    font-size: 26px;
+    width: 117px;
     border-radius: 2px;
-    padding-top:6px;
-    padding-bottom:6px;
+    padding-top:2px;
+    padding-bottom:2px;
     padding-left: 14px;
     padding-right: 14px;
     margin-left:0px;
