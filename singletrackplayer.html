@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    
+    <body>
+        
+        <div id="single-track-player"></div>
+        
+        <script>
+            
+            require([
+                '$api/models', '$views/image#Image'
+            ], function(models, Image) {
+
+            // Play a single track
+            var track = models.Track.fromURI('spotify:track:7B1Dl3tXqySkB8OPEwVvSu');
+            var image = Image.forTrack(track, {player: true});
+
+            // Pass the player HTML code to the #single-track-player div
+            document.getElementById('single-track-player').appendChild(image.node);});
+            
+            </script>
+
+    </body>
+</html>

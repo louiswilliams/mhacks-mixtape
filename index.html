@@ -18,8 +18,8 @@
         <input class="QupInput" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
         <br>
         
-        <button class="QupButton" id="Create" onclick="  ">Create</button>
-        <button class="QupButton" id="Join" onclick="  ">Join</button>
+        <button class="QupButton" id="Create" onclick="window.location.href='playlistview.html'">Create</button>
+        <button class="QupButton" id="Join" >Join</button>
         
         </div>
             
@@ -50,14 +50,39 @@
         <br>
         </div>
         
+        <div id="single-track-player"></div>
+        
         <script>
             
             $(".Upvote").click(function(event){
                 $(this).css('color', '#ff0000');
             });
             
+            require([
+                '$api/models', '$views/image#Image'
+            ], function(models, Image) {
+
+            // Play a single track
+            var track = models.Track.fromURI('spotify:track:7B1Dl3tXqySkB8OPEwVvSu');
+            var image = Image.forTrack(track, {player: true});
+
+            // Pass the player HTML code to the #single-track-player div
+            document.getElementById('single-track-player').appendChild(image.node);});
             
         </script>
+        
+        
+        <script type="script/snippet" data-container="js">
+        require(['$api/models', '$views/list#List'], function(models, List) {
+
+            var playlist = models.Playlist.fromURI('spotify:user:billboard.com:playlist:6UeSakyzhiEt4NB3UAd6NQ'),
+                list = List.forPlaylist(playlist);
+
+            document.getElementById('playlist-player').appendChild(list.node);
+            list.init();
+        });
+        </script>
+        
         
     </body>
     
