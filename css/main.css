@@ -15,7 +15,7 @@ body {
 
 #logo{
     padding-top: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
 }
 
 .QupInput{
@@ -34,6 +34,15 @@ body {
 
 #single-track-player{
 
+}
+
+.search_result_item{
+    width:90%px;
+
+}
+
+#sp-list{
+    height: 420px;   
 }
 
 .QupButton{
