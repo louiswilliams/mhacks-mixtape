@@ -1,5 +1,5 @@
-// SERVER = "http://queueup.herokuapp.com"
-var WEB_URL = "http://queueup.herokuapp.com";
+// var WEB_URL = "http://queueup.herokuapp.com";
+var WEB_URL = "http://127.0.0.1:3000";
 var WEB_USER_AUTH_PATH = "/user/auth";
 var WEB_PLAYLIST_CREATE_PATH = "/playlist/create.json";
 var WEB_PLAYLIST_SHOW_PATH = "/playlist"
@@ -94,7 +94,7 @@ require([
 });
 
 function create_playlist(code) {
-    $.post(WEB_URL + "/playlist/create", {code: code}).done(function(data) {
+    $.post(WEB_URL + WEB_PLAYLIST_CREATE_PATH, {code: code}).done(function(data) {
         console.log(data);
         alert(data);
     });

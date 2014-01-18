@@ -2,6 +2,9 @@
 <html>
     
     <head>
+        <link rel="stylesheet" href="$views/css/image.css">
+        <link rel="stylesheet" href="$views/css/list.css">
+        <link rel="stylesheet" href="$views/css/buttons.css">
         <script src="js/jquery-1.10.2.js" > </script>
         <script src="js/main.js" > </script>
         <link rel="stylesheet" href="css/main.css">
@@ -16,10 +19,10 @@
         <img id="logo" src="queueup_logo.png">
         <!-- <h1>queue up</h1> -->
         <br>
-        <input class="QupInput" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
+        <input class="QupInput" id="playlistCode" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
         <br>
         
-        <button class="QupButton" id="Create" onclick="window.location.href='playlistview.html'">Create</button>
+        <button class="QupButton" id="Create">Create</button>
         <button class="QupButton" id="Join" >Join</button>
         
         </div>
@@ -35,6 +38,12 @@
                 $(this).css('color', '#ff0000');
             });
             
+
+            $("#Create").click(function(event) {
+                code = $("#playlistCode").val();
+                create_playlist(code);
+            });
+
             require([
                 '$api/models', '$views/image#Image'
             ], function(models, Image) {
