@@ -1,1 +1,31 @@
-asdf
+{
+    "AppName": {
+        "en": “QueueUp”
+    },
+    "BundleIdentifier": “queueup”,
+    "BundleType": "Application",
+    "BundleVersion": "0.1",
+    "Dependencies": {
+        "api": "1.10.2",
+        "views": "1.18.1"
+    },
+    "SupportedDeviceClasses": [ "Desktop", "Tablet", "Mobile", "Web", "Tv"],
+
+    "AppDescription": "Collaborative and social party playlist",
+    "AppIcon": "",
+    "SupportedLanguages": ["en"],
+    "VendorIdentifier": "com.justTheTip",
+
+    "DefaultTabs": [
+        {
+            "arguments": "index",
+            "title": {
+                "en": "Home"
+            }
+        }
+    ],
+
+    "RequiredPermissions": [
+        "http://queueup.herokuapp.com/“,
+    ]
+}
