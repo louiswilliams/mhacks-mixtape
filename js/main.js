@@ -45,15 +45,26 @@ require([
     }
 
     function load_playlist(code) {
-        var trackArr;
+        var trackArr = new Array();
         $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
             .done(function(data) {
-                console.log(data["tracks"]);
+                // console.log(data["tracks"]);
                 $.each(data["tracks"], function(i, val) {
-                    alert();
+                    trackArr[i] = models.Track.fromURI(val["url"]);
                 });
-                // trackArray; 
+                models.Playlist.createTemporary(code)
+                  .done(function (playlist) {
+                    playlist.load('tracks').done(function(loadedPlaylist) {
+                        loadedPlaylist.tracks.add(trackArr);
+                    });
+
+                    var list = List.forPlaylist(playlist);
+                    document.getElementById('playlist-player').appendChild(list.node);
+                    list.init();
+                    // console.log(trackArr);
+                });
         });
+
 
         // var arr = [models.Track.fromURI("spotify:track:64uuKDv6dm6PuUOA3PBQaS")];
         // models.Playlist.createTemporary(code + "_" + new Date().getTime())
