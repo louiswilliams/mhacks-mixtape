@@ -6,11 +6,48 @@ body {
     width: 200;
     margin-left: auto;
     margin-right: auto;
+    text-align:center;
 }
 
 h1 {
     color: #74b301;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 40 px;
-    
+    font-size: 55px;
+}
+
+input{
+    text-transform: uppercase;
+    font-family: monospace;
+    font-size: 30px;
+    color: #000000;
+    background-color: #ffffff;
+    #border-color: #74b301;
+    border-style:outset;
+    text-align:center;
+    padding-top:6px;
+    padding-bottom:6px;
+    padding-left:2px;
+    padding-right: 2px;
+    width: 246px;
+    margin-left:3px;
+    margin-right:0px;
+    border-radius:2px;
+}
+
+button{
+    color: #ffffff;
+    background-color: #74b301;
+    border-style:outset;
+    border-color:#74b301;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 30px;
+    width: 125px;
+    border-radius: 2px;
+    padding-top:6px;
+    padding-bottom:6px;
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-left:0px;
+    margin-right:0px;
+    margin-top:0px;
 }
