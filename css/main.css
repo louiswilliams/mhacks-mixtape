@@ -1,3 +1,16 @@
 html {
-    background-color: #dddddd;
+    background-color: #313131;
+}
+
+body {
+    width: 200;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    color: #74b301;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 40 px;
+    
 }
