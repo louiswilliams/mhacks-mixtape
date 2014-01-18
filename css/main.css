@@ -45,6 +45,10 @@ body {
     margin-top:0px;
 }
 
+#track{
+    
+}
+
 #Create{
     width: 117px;
     padding-top:2px;
@@ -57,28 +61,39 @@ body {
     padding-bottom:2px;
 }
 
-#Upvote{
-    padding-top:4px;
-    padding-bottom:2px;
+.Upvote{
     padding-left: 16px;
     padding-right: 16px;
     
+    border-radius:2px;
+    
+    height: 40px;
+    
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    
+    margin-top:2px;
+    
     margin-left: 10%;
-    margin-right: auto;
+    margin-right: 0px;
 }
 
 #SongData{
     font-size: 30px;
+    font-family: Arial, sans-serif;
     color: #000000;
     background-color: #ffffff;
     border-style:outset;
     text-align:center;
     border-radius:2px;
     
-    #text-overflow:ellipsis;
+    text-overflow:ellipsis;
     
     width: 70%;
     max-width: 70%;
+    height: 40px;
     
     overflow:hidden;
     display:inline-flex;
@@ -91,10 +106,11 @@ body {
     border-left-width: 1px;
     border-right-width: 1px;
     
-    margin-top:4px;
+    margin-top:2px;
+    margin-left:0px;
     
-    padding-top:4px;
-    padding-bottom:2px;
+    #padding-top:4px;
+    #padding-bottom:2px;
     padding-left: 14px;
     padding-right: 14px;
     

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
-
+    
     <head>
+        <script src="jquery-1.10.2.js" > </script>
         <link rel="stylesheet" href="css/main.css">
     </head>
     
     <body>
+        
+        
         
         <div class="centered">
         
@@ -23,20 +26,38 @@
         <br>
         <br>
         
-        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        <div class="Track">
+        <button class="QupButton Upvote"> ^ </button>
         <span id="SongData"> Bound 3 - Seth Rogan  </span>
         <br>
-        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        </div>
+        
+        <div class="Track">
+        <button class="QupButton Upvote"> ^ </button>
         <span id="SongData"> Test 2 ))(09dfasdvz>N - Kanye West  </span>
         <br>
-        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        </div>
+        
+        <div class="Track">
+        <button class="QupButton Upvote"> ^ </button>
         <span id="SongData"> Rawnald Gregory Erickson asdf the Second - Starfucker  </span>
         <br>
-        <button class="QupButton" id="Upvote" onclick="setColor"> ^ </button>
+        </div>
+        
+        <div class="Track">
+        <button class="QupButton Upvote"> ^ </button>
         <span id="SongData"> Bound 3 - laisdf  </span>
         <br>
+        </div>
         
-        
+        <script>
+            
+            $(".Upvote").click(function(event){
+                $(this).css('color', '#ff0000');
+            });
+            
+            
+        </script>
         
     </body>
     
