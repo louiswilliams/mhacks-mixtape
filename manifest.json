@@ -1,8 +1,8 @@
 {
     "AppName": {
-        "en": “QueueUp”
+        "en": "QueueUp"
     },
-    "BundleIdentifier": “queueup”,
+    "BundleIdentifier": "queueup",
     "BundleType": "Application",
     "BundleVersion": "0.1",
     "Dependencies": {
