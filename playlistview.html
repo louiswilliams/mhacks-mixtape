@@ -1,10 +1,73 @@
-<div class="section">
+<!DOCTYPE html>
+<html>
     
-    <div class="html-snippet" data-container="html">
+    <head>
+        <link rel="stylesheet" href="$views/css/image.css">
+        <link rel="stylesheet" href="$views/css/list.css">
+        <link rel="stylesheet" href="$views/css/buttons.css">
+        <script src="js/jquery-1.10.2.js" > </script>
+        <script src="js/main.js" > </script>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    
+    <body>
+        
+        
+        
+        <div class="centered">
+        
+        <img id="logo" src="queueup_logo.png">
+        <!-- <h1>queue up</h1> -->
+        <br>
+
+        <br>
+        
+
+        
+        </div>
+            
+        <br>
+        <br>
+ 
         <div id="playlist-player"></div>
-    </div>
+        
+        <script>
+            
+            $(".Upvote").click(function(event){
+                $(this).css('color', '#ff0000');
+            });
+            
+
+            $("#Create").click(function(event) {
+                code = $("#playlistCode").val();
+                create_playlist(code);
+
+            });
+            require(['$api/models', '$views/list#List'], 
+                function(models, List) {
+
+                var playlist = models.Playlist.fromURI('spotify:user:billboard.com:playlist:6UeSakyzhiEt4NB3UAd6NQ');
+                var list = List.forPlaylist(playlist);
     
-    <script type="script/snippet" data-container="js">
+                document.getElementById('playlist-player').appendChild(list.node);
+                list.init();
+                });
+      //      require([
+    //            '$api/models', '$views/image#Image'
+  //          ], function(models, Image) {
+
+            // Play a single track
+//            var track = models.Track.fromURI('spotify:track:7B1Dl3tXqySkB8OPEwVvSu');
+//            var image = Image.forTrack(track, {player: true});
+
+            // Pass the player HTML code to the #single-track-player div
+//            document.getElementById('single-track-player').appendChild(image.node);});
+        
+                
+        </script>
+        
+<!--        
+        <script type="script/snippet" data-container="js">
         require(['$api/models', '$views/list#List'], function(models, List) {
 
             var playlist = models.Playlist.fromURI('spotify:user:billboard.com:playlist:6UeSakyzhiEt4NB3UAd6NQ'),
@@ -13,5 +76,8 @@
             document.getElementById('playlist-player').appendChild(list.node);
             list.init();
         });
-    </script>
-</div>
+        </script>
+-->
+    </body>
+    
+</html>

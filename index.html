@@ -22,14 +22,14 @@
         <input class="QupInput" id="playlistCode" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
         <br>
         
-        <button class="QupButton" id="Create">Create</button>
+        <button class="QupButton" id="Create" onclick="window.location.href='playlistview.html'">Create</button>
         <button class="QupButton" id="Join" >Join</button>
         
         </div>
             
         <br>
         <br>
-    
+<!--    
         <div id="single-track-player"></div>
         
         <script>
@@ -42,6 +42,7 @@
             $("#Create").click(function(event) {
                 code = $("#playlistCode").val();
                 create_playlist(code);
+
             });
 
             require([
@@ -69,7 +70,7 @@
         });
         </script>
         
-        
+        -->
     </body>
     
 </html>
