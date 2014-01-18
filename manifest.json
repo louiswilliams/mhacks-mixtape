@@ -26,6 +26,7 @@
     ],
 
     "RequiredPermissions": [
-        "http://queueup.herokuapp.com/“,
+        "http://turntable.us.to/",
+        "http://extrakt.us.to/"
     ]
 }
