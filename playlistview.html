@@ -16,7 +16,8 @@
         
         <div class="centered">
         
-        <img id="logo" src="queueup_logo.png">
+        <a href="/index.html"><img id="logo" src="queueup_logo.png"></a>
+        
         <!-- <h1>queue up</h1> -->
         <br>
 
@@ -46,7 +47,7 @@
             require(['$api/models', '$views/list#List'], 
                 function(models, List) {
 
-                var playlist = models.Playlist.fromURI('spotify:user:billboard.com:playlist:6UeSakyzhiEt4NB3UAd6NQ');
+                var playlist = models.Playlist.fromURI('spotify:user:12101309863:playlist:5QKCLXpj24f0tqbqatPFFJ');
                 var list = List.forPlaylist(playlist);
     
                 document.getElementById('playlist-player').appendChild(list.node);
