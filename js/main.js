@@ -14,6 +14,7 @@ require([
     var user; // User object retrieved from server
     var playlist;
     var current_code;
+    var current_track;
 
     load_data();
 
@@ -48,50 +49,55 @@ require([
         });
     }
 
-    function load_playlist(code) {
+    function load_playlist(code, callback) {
         current_code = code;
         var trackArr = new Array();
         var list;
+
         $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
-            .success(function(data) {
-                // console.log(data["tracks"]);
-                $.each(data["tracks"], function(i, val) {
-                    trackArr[i] = models.Track.fromURI(val["url"]);
-                });
-                console.log(trackArr);
+                .success(function(data) {
+                    // console.log(data["tracks"]);
+                    $.each(data["tracks"], function(i, val) {
+                        trackArr[i] = models.Track.fromURI(val["url"]);
+                    });
+                    console.log(trackArr);
 
-                playlist = models.Playlist.createTemporary(code + new Date().getTime())
-                    .done(function (playlist) {
-                    playlist.load('tracks').done(function(loadedPlaylist) {
-                        loadedPlaylist.tracks.add(trackArr).done(function() {
-                            var list = List.forPlaylist(playlist);
-                            $('#playlist-player').html(list.node);
-                            // $("#search_form")
-                            //     .html("<form action='" + WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + "/add'>"
-                            //         +"<input type='text' placeholder='Search...' id='track_search'>"
-                            //         +"</form>");
+                    playlist = models.Playlist.createTemporary(code + new Date().getTime())
+                        .done(function (playlist) {
+                        playlist.load('tracks').done(function(loadedPlaylist) {
+                            loadedPlaylist.tracks.add(trackArr).done(function() {
+                                var list = List.forPlaylist(playlist);
+                                $('#playlist-player').html(list.node);
 
-                            list.init();
-                            models.player.addEventListener("change", function(player) {
-                                update_playlist(player);
+                                list.init();
+                                models.player.addEventListener("change", function(player) {
+                                    update_playlist(player);
+                                });
+                                if (callback) {
+                                    callback(playlist);
+                                    
+                                }
                             });
                         });
                     });
-                });
-        });
 
+            });
         $("#playlist-url").html("<a class='app-url' href='http://queueup.herokuapp.com/playlist/"
             + code + "''> queueup.herokuapp.com/playlist/" + code.toUpperCase()  + "</a><br><p>to add tracks</p>");
     }
 
 
     function load_next(playlist) {
+        models.player.playContext(playlist);
         // tracks = playlist.load("tracks").done(function(loadedPlaylist) {
         //     loadedPlaylist.tracks.snapshot().done(function(snapshot) {
         //         if (snapshot.length > 0) {
         //             var firstTrack = snapshot.get(0);
         //             console.log(firstTrack);
-        //             models.player.playTrack(firstTrack);
+        //             // image = Image.forTrack(firstTrack, {player: true});
+        //             // $("#single-track-player").html(image.node);
+        //             // models.player.playTrack(firstTrack);
+        //             // remove_last(firstTrack.uri);
         //         }
 
         //     });
@@ -102,16 +108,10 @@ require([
 
     function update_playlist(player) {
         console.log(player);
-        // load_playlist(get_code());
+        if (current_code) {
+            load_playlist(current_code);
+        }
 
-        // if (player.data.playing == false) {
-        //     console.log(player);
-
-        //     if (player.data.track == null) {
-        //         remove_last(playlist.object)
-        //         load_next(playlist.object);
-        //     }
-        // }
     }
 
     function arguments() {
@@ -126,7 +126,10 @@ require([
 
         if (args[0] == "playlist") {
             var code = args[1];
-            load_playlist(code);
+            load_playlist(code, function(playlist) {
+                load_next(playlist);
+            });
+
         }
         load_data();
     }
@@ -135,11 +138,14 @@ require([
         return current_code;
     }
 
-    function remove_last(code) {
-        $.post(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + "/remove").done(function(data) {
+    function remove_last(url) {
+        console.log(url);
+        $.post(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + current_code+ "/remove",
+            {track_url: url}).done(function(data) {
             // console.log(data);
             console.log(data);
-            window.location.href="spotify:app:queueup:playlist:" + code;
+            load_playlist(current_code);
+            // window.location.href="spotify:app:queueup:playlist:" + current_code;
         });   
     }
 
@@ -171,6 +177,7 @@ function delete_playlist(code) {
         console.log(data);
         window.location.href="spotify:app:queueup:index";
     });
+
 }
 
 

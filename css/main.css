@@ -29,8 +29,8 @@ p {
 }
 
 #logo{
-    padding-bottom: 100px;
-    margin-top: 6px;
+    padding-bottom: 50px;
+    margin-top: 50px;
 }
 
 #logoWrap {
@@ -180,6 +180,10 @@ a.QupButton:hover {
 #playlist-url a {
     color: #dddddd;
     font-size: 16pt;
+}
+
+.sp-list{
+    min-height: 250px;
 }
 
 #playlist-player{
