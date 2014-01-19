@@ -11,7 +11,7 @@ require([
 ], function(models, List, Toplist) {
     var spotify_user; //Spotify's user model
     var user; // User object retrieved from server
-    var playlists;
+    var playlist;
 
     load_data();
 
@@ -35,6 +35,7 @@ require([
 
             list_html = "<div id='playlist_list'>";
             $.each(user.playlists, function(i, pl) {
+
                 list_html += "<h2><pre class='code'><a href='"
                     + "spotify:app:queueup:playlist:"
                     + pl.code + "'>" + pl.code.toUpperCase() + "</a></pre></h2>";
@@ -46,24 +47,45 @@ require([
 
     function load_playlist(code) {
         var trackArr = new Array();
+        var list;
         $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
-            .done(function(data) {
+            .success(function(data) {
                 // console.log(data["tracks"]);
                 $.each(data["tracks"], function(i, val) {
                     trackArr[i] = models.Track.fromURI(val["url"]);
                 });
-                models.Playlist.createTemporary(code)
-                  .done(function (playlist) {
-                    playlist.load('tracks').done(function(loadedPlaylist) {
-                        loadedPlaylist.tracks.add(trackArr);
-                    });
+                console.log(trackArr);
 
-                    var list = List.forPlaylist(playlist);
-                    document.getElementById('playlist-player').appendChild(list.node);
-                    list.init();
-                    // console.log(trackArr);
+                playlist = models.Playlist.createTemporary(code + new Date().getTime())
+                    .done(function (playlist) {
+                playlist.load('tracks').done(function(loadedPlaylist) {
+                    loadedPlaylist.tracks.add(trackArr).done(function() {
+                        var list = List.forPlaylist(playlist);
+                        $('#playlist-player').html(list.node);
+                        list.init();
+                        start_playlist(playlist);
+                    });
                 });
+            });
         });
+    }
+
+
+    function start_playlist(p) {
+        tracks = p.load("tracks").done(function(loadedPlaylist) {
+            loadedPlaylist.tracks.snapshot().done(function(snapshot) {
+                if (snapshot.length > 0) {
+                    var firstTrack = snapshot.get(0);
+                    var image = Image.forTrack(firstTrack, {player: true});
+                    $("#single-track-player").html(image.node);
+
+                }
+
+            });
+        });
+    }        
+
+
 
 
         // var arr = [models.Track.fromURI("spotify:track:64uuKDv6dm6PuUOA3PBQaS")];
@@ -90,8 +112,6 @@ require([
 
 
         // $("#playlist_view").html(view_html);
-
-    }
 
     function arguments() {
         var args = models.application.arguments;
@@ -122,3 +142,6 @@ function create_playlist(code) {
     });
 }
 
+function join_playlist(code) {
+    window.location.href="spotify:app:queueup:playlist:" + code;
+}

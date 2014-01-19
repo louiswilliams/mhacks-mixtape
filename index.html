@@ -28,13 +28,19 @@
             <div id="user_playlists">
             </div>
 
-            <div id="playlist-player">Player</div>
-            
+            <div id="single-track-player"></div>
+            <div id="playlist-player"></div>
+
             <br>
             <br>
 
             <script>
                 $("#Create").click(function(event) {
+                    code = $("#playlistCode").val();
+                    create_playlist(code);
+                });
+
+                $("#Join").click(function(event) {
                     code = $("#playlistCode").val();
                     create_playlist(code);
                 });
