@@ -30,6 +30,11 @@ require([
     function load_data(){
         spotify_user = models.User.fromURI("spotify:user:@");
 
+
+        models.player.addEventListener("change", function(player) {
+            update_playlist(player);
+        });
+
         $("#user_playlists").html("Loading...");
         load_user_data(spotify_user, function(user_data){
             user = user_data;
@@ -49,39 +54,40 @@ require([
         });
     }
 
-    function load_playlist(code, callback) {
-        current_code = code;
+    function popupate_playlist(code, callback) {
         var trackArr = new Array();
         var list;
-
         $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
-                .success(function(data) {
-                    // console.log(data["tracks"]);
-                    $.each(data["tracks"], function(i, val) {
-                        trackArr[i] = models.Track.fromURI(val["url"]);
-                    });
-                    console.log(trackArr);
+            .success(function(data) {
+                // console.log(data["tracks"]);
+                $.each(data["tracks"], function(i, val) {
+                    trackArr[i] = models.Track.fromURI(val["url"]);
+                });
+                console.log(trackArr);
 
-                    playlist = models.Playlist.createTemporary(code + new Date().getTime())
-                        .done(function (playlist) {
-                        playlist.load('tracks').done(function(loadedPlaylist) {
-                            loadedPlaylist.tracks.add(trackArr).done(function() {
-                                var list = List.forPlaylist(playlist);
-                                $('#playlist-player').html(list.node);
+                playlist = models.Playlist.createTemporary(code + new Date().getTime())
+                    .done(function (playlist) {
+                    playlist.load('tracks').done(function(loadedPlaylist) {
+                        loadedPlaylist.tracks.add(trackArr).done(function() {
+                            var list = List.forPlaylist(playlist);
+                            $('#playlist-player').html(list.node);
 
-                                list.init();
-                                models.player.addEventListener("change", function(player) {
-                                    update_playlist(player);
-                                });
-                                if (callback) {
-                                    callback(playlist);
-                                    
-                                }
-                            });
+                            list.init();
+                            if (callback) {
+                                callback(playlist);
+
+                            }
                         });
                     });
-
+                });
             });
+    }
+
+    function load_playlist(code, callback) {
+        current_code = code;
+        $('#playlist-player').html();
+        popupate_playlist(code, callback);
+
         $("#playlist-url").html("<a class='app-url' href='http://queueup.herokuapp.com/playlist/"
             + code + "''> queueup.herokuapp.com/playlist/" + code.toUpperCase()  + "</a><br><p>to add tracks</p>");
     }
