@@ -1,5 +1,5 @@
-var WEB_URL = "http://queueup.herokuapp.com";
-// var WEB_URL = "http://localhost:3000";
+// var WEB_URL = "http://queueup.herokuapp.com";
+var WEB_URL = "http://localhost:3000";
 var WEB_USER_AUTH_PATH = "/user/auth";
 var WEB_PLAYLIST_CREATE_PATH = "/playlist/create.json";
 var WEB_PLAYLIST_SHOW_PATH = "/playlist"
@@ -7,8 +7,9 @@ var WEB_PLAYLIST_SHOW_PATH = "/playlist"
 require([
     '$api/models',
     '$views/list#List',
-    '$api/toplists#Toplist'
-], function(models, List, Toplist) {
+    '$api/toplists#Toplist',
+    '$views/image#Image'
+], function(models, List, Toplist, Image) {
     var spotify_user; //Spotify's user model
     var user; // User object retrieved from server
     var playlist;
@@ -35,12 +36,13 @@ require([
 
             list_html = "<div id='playlist_list'>";
             $.each(user.playlists, function(i, pl) {
-
                 list_html += "<h2><pre class='code'><a href='"
                     + "spotify:app:queueup:playlist:"
-                    + pl.code + "'>" + pl.code.toUpperCase() + "</a></pre></h2>";
+                    + pl.code + "'>" + pl.code.toUpperCase() + "</a>"
+                    + "<button class='delete_playlist' onclick='delete_playlist(\"" + pl.code + "\")'>X</button></pre>"
+                    + "</h2>";
             });
-            list_html += "</div>"
+            list_html += "</div>";
             $("#user_playlists").html(list_html);
         });
     }
@@ -58,60 +60,52 @@ require([
 
                 playlist = models.Playlist.createTemporary(code + new Date().getTime())
                     .done(function (playlist) {
-                playlist.load('tracks').done(function(loadedPlaylist) {
-                    loadedPlaylist.tracks.add(trackArr).done(function() {
-                        var list = List.forPlaylist(playlist);
-                        $('#playlist-player').html(list.node);
-                        list.init();
-                        start_playlist(playlist);
+                    playlist.load('tracks').done(function(loadedPlaylist) {
+                        loadedPlaylist.tracks.add(trackArr).done(function() {
+                            var list = List.forPlaylist(playlist);
+                            $('#playlist-player').html(list.node);
+                            list.init();
+                            models.player.addEventListener("change", function(player) {
+                                update_playlist(player);
+                            });
+                        });
                     });
                 });
-            });
         });
+
+        $("#playlist-url").html("<a href='http://queueup.herokuapp.com/playlist/"
+            + code + "''> queueup.herokuapp.com/playlist/" + code  + "</a>");
     }
 
 
-    function start_playlist(p) {
-        tracks = p.load("tracks").done(function(loadedPlaylist) {
-            loadedPlaylist.tracks.snapshot().done(function(snapshot) {
-                if (snapshot.length > 0) {
-                    var firstTrack = snapshot.get(0);
-                    var image = Image.forTrack(firstTrack, {player: true});
-                    $("#single-track-player").html(image.node);
+    function load_next(playlist) {
+        // tracks = playlist.load("tracks").done(function(loadedPlaylist) {
+        //     loadedPlaylist.tracks.snapshot().done(function(snapshot) {
+        //         if (snapshot.length > 0) {
+        //             var firstTrack = snapshot.get(0);
+        //             console.log(firstTrack);
+        //             models.player.playTrack(firstTrack);
+        //         }
 
-                }
-
-            });
-        });
-    }        
-
-
-
-
-        // var arr = [models.Track.fromURI("spotify:track:64uuKDv6dm6PuUOA3PBQaS")];
-        // models.Playlist.createTemporary(code + "_" + new Date().getTime())
-        //   .done(function (playlist) {
-        //     playlist.tracks.add.apply(playlist.tracks, arr).done(function () {
-        //         // Create list
-        //         alert();
-
-        //         var list = List.forCollection(playlist, {
-        //           style: 'rounded'
-        //         });
-
-        //         $('#playlist-player').appendChild(list.node);
-        //         list.init();
         //     });
         // });
-        // var list = List.forPlaylist(playlistPromise.setDone());
 
-        // document.getElementById('playlist-player').appendChild(list.node);
-        // list.init();
+        // remove_last();
+    }        
 
+    function update_playlist(player) {
+        console.log(player);
+        load_playlist(get_code());
 
+        // if (player.data.playing == false) {
+        //     console.log(player);
 
-
-        // $("#playlist_view").html(view_html);
+        //     if (player.data.track == null) {
+        //         remove_last(playlist.object)
+        //         load_next(playlist.object);
+        //     }
+        // }
+    }
 
     function arguments() {
         var args = models.application.arguments;
@@ -127,7 +121,26 @@ require([
             var code = args[1];
             load_playlist(code);
         }
+        load_data();
     }
+
+    function get_code() {
+        args = models.application.arguments;
+        if (args[0] == "playlist") {
+            return args[1]
+        } else{
+            return null;
+        }
+    }
+
+    function remove_last(code) {
+        $.post(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + "/remove").done(function(data) {
+            // console.log(data);
+            console.log(data);
+            window.location.href="spotify:app:queueup:playlist:" + code;
+        });   
+    }
+
 
     models.application.load('arguments').done(arguments);
 
@@ -141,6 +154,15 @@ function create_playlist(code) {
         window.location.href="spotify:app:queueup:playlist:" + code;
     });
 }
+
+function delete_playlist(code) {
+    $.post(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + "/delete")
+    .done(function(data) {
+        console.log(data);
+        window.location.href="spotify:app:queueup:index";
+    });
+}
+
 
 function join_playlist(code) {
     window.location.href="spotify:app:queueup:playlist:" + code;

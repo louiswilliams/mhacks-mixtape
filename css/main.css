@@ -9,6 +9,15 @@ body {
     #text-align:center;
 }
 
+.delete_playlist {
+    float: right;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid #555;
+    margin-top: 5px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
 .centered {
     text-align:center;   
 }
@@ -33,7 +42,10 @@ body {
 }
 
 #single-track-player{
-
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    margin-bottom: 15px;
 }
 
 .search_result_item{
@@ -41,8 +53,8 @@ body {
 
 }
 
-#sp-list{
-    height: 420px;   
+.sp-list{
+    /*height: 300px;*/
 }
 
 .QupButton{
@@ -139,4 +151,12 @@ body {
 #playlist_list h2 pre.code a{
     font-size: 16pt;
     color: #FFFFFF;
+}
+#playlist-url{
+    margin-bottom: 15px;
+}
+
+#playlist-url a {
+    color: #dddddd;
+    font-size: 16pt;
 }
