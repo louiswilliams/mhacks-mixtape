@@ -31,13 +31,15 @@ body {
     text-transform: uppercase;
     font-family: monospace;
     font-size: 30px;
-    color: #000000;
+    color: #333333;
     background-color: #ffffff;
-    border-style:outset;
+    border: none;
+    border-radius: 5px;
     text-align:center;
     padding-top:6px;
     padding-bottom:6px;
     padding-left:2px;
+    margin-left: 3px;
     width: 232px;
 }
 
@@ -48,9 +50,16 @@ body {
     margin-bottom: 15px;
 }
 
-.search_result_item{
-    width:90%px;
+#search_results{
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+.search_result_item button{
+    font-size: 14pt;
+    float: right;
+    width: 600px;
 }
 
 .sp-list{
@@ -60,14 +69,14 @@ body {
 .QupButton{
     color: #ffffff;
     background-color: #74b301;
-    border-style:outset;
+    border-style:solid;
     border-color:#74b301;
-    border-radius: 2px;
+    border-radius: 5px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 26px;
     margin-left:0px;
     margin-right:0px;
-    margin-top:0px;
+    margin-top:3px;
 }
 
 #track{
@@ -75,13 +84,13 @@ body {
 }
 
 #Create{
-    width: 117px;
+    width: 115px;
     padding-top:2px;
     padding-bottom:2px;
 }
 
 #Join{
-    width: 117px;
+    width: 115px;
     padding-top:2px;
     padding-bottom:2px;
 }
@@ -99,7 +108,7 @@ body {
     
     margin-top:2px;
     
-    margin-left: 10%;
+    margin-left: 0px;
     margin-right: 0px;
 }
 
@@ -108,7 +117,7 @@ body {
     font-family: Arial, sans-serif;
     color: #000000;
     background-color: #ffffff;
-    border-style:outset;
+    border-style:solid;
     text-align:center;
     text-overflow:ellipsis;
     
@@ -138,7 +147,7 @@ body {
 #playlist_list {
     margin-left: auto;
     margin-right: auto;
-    width: 200px;
+    width: 235px;
 }
 
 #playlist_list h2 pre.code {
@@ -159,4 +168,16 @@ body {
 #playlist-url a {
     color: #dddddd;
     font-size: 16pt;
+}
+
+#track_search {
+    font-size: 16pt;
+    color: #333333;
+    background-color: #ffffff;
+    border-style:solid ;
+    text-align:center;
+    padding-top:6px;
+    padding-bottom:6px;
+    padding-left:2px;
+    width: 232px;
 }

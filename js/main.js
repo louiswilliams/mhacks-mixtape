@@ -66,6 +66,11 @@ require([
                         loadedPlaylist.tracks.add(trackArr).done(function() {
                             var list = List.forPlaylist(playlist);
                             $('#playlist-player').html(list.node);
+                            // $("#search_form")
+                            //     .html("<form action='" + WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + "/add'>"
+                            //         +"<input type='text' placeholder='Search...' id='track_search'>"
+                            //         +"</form>");
+
                             list.init();
                             models.player.addEventListener("change", function(player) {
                                 update_playlist(player);
@@ -76,7 +81,7 @@ require([
         });
 
         $("#playlist-url").html("<a href='http://queueup.herokuapp.com/playlist/"
-            + code + "''> queueup.herokuapp.com/playlist/" + code  + "</a>");
+            + code + "''> queueup.herokuapp.com/playlist/" + code.toUpperCase()  + "</a>");
     }
 
 
@@ -128,12 +133,6 @@ require([
 
     function get_code() {
         return current_code;
-        // args = models.application.arguments;
-        // if (args[0] == "playlist") {
-        //     return args[1]
-        // } else{
-        //     return null;
-        // }
     }
 
     function remove_last(code) {
@@ -148,6 +147,14 @@ require([
     models.application.load('arguments').done(arguments);
 
     models.application.addEventListener('arguments', arguments);
+
+    $("#track_search").keyup(function(e) {
+        query = $("#track_search").val();
+        if (query.length > 0) {
+            search = search.Search.suggest(query);
+            alert(search.tracks);
+        }
+    });    
 
 });
 
@@ -169,4 +176,28 @@ function delete_playlist(code) {
 
 function join_playlist(code) {
     window.location.href="spotify:app:queueup:playlist:" + code;
+}
+
+function search(input) {
+    query = $(input).val();
+    if (query.length > 0) {
+        $.getJSON("http://ws.spotify.com/search/1/track.json", {q: query}, function(json) {
+            $("#search_results").html("");
+            $.each(json["tracks"], function(i, track) {
+                if (i < 5) {
+                    $("#search_results").append(result_track_format(track));
+                } else {
+                    return false;
+                }
+            })
+        });
+    }
+}
+
+function result_track_format(track) {
+    html = "<div class='search_result_item'>";
+    html += "<button class='QupButton' name='track_url' value='" + track["href"] + "'>";
+    html += track["artists"][0]["name"] + " - " + track["name"] + " (" + track["album"]["name"] + ")";
+    html += "</button></div>";
+    return html;
 }
