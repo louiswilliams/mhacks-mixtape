@@ -80,8 +80,8 @@ require([
                 });
         });
 
-        $("#playlist-url").html("<a href='http://queueup.herokuapp.com/playlist/"
-            + code + "''> queueup.herokuapp.com/playlist/" + code.toUpperCase()  + "</a>");
+        $("#playlist-url").html("<a class='app-url' href='http://queueup.herokuapp.com/playlist/"
+            + code + "''> queueup.herokuapp.com/playlist/" + code.toUpperCase()  + "</a><br><p>to add tracks</p>");
     }
 
 

@@ -4,11 +4,17 @@ html {
 
 body {
     width: auto;
+    padding: 0px;
+    margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
     #text-align:center;
 }
 
+p {
+    color: #FFFFFF;
+    font-size: 11pt;
+}
 .delete_playlist {
     float: right;
     background: rgba(255,255,255,0.2);
@@ -23,8 +29,15 @@ body {
 }
 
 #logo{
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 100px;
+    margin-top: 6px;
+}
+
+#logoWrap {
+    width: 100%;
+    height: 55px;
+    background: #222;
+    padding-bottom: 5px;
 }
 
 .QupInput{
@@ -74,25 +87,18 @@ body {
     border-radius: 5px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 26px;
+    margin-top:2px;
     margin-left:0px;
     margin-right:0px;
-    margin-top:3px;
-}
-
-#track{
-    
-}
-
-#Create{
-    width: 115px;
+    width: 109px;
     padding-top:2px;
     padding-bottom:2px;
+    display: inline-block;
+    text-decoration: none;
 }
 
-#Join{
-    width: 115px;
-    padding-top:2px;
-    padding-bottom:2px;
+a.QupButton:hover {
+    text-decoration: underline;
 }
 
 .Upvote{
@@ -159,8 +165,14 @@ body {
 
 #playlist_list h2 pre.code a{
     font-size: 16pt;
+    text-decoration: none;
     color: #FFFFFF;
 }
+
+#playlist_list h2 pre.code a:hover{
+    text-decoration: underline;
+}
+
 #playlist-url{
     margin-bottom: 15px;
 }
@@ -168,6 +180,11 @@ body {
 #playlist-url a {
     color: #dddddd;
     font-size: 16pt;
+}
+
+#playlist-player{
+    position: absolute;
+    bottom: 0px;
 }
 
 #track_search {
@@ -180,4 +197,18 @@ body {
     padding-bottom:6px;
     padding-left:2px;
     width: 232px;
+}
+
+.app-url {
+    margin-top: 20px;
+    padding: 5px;
+    text-decoration: none;
+    border: 1px dashed #555;
+    border-radius: 8px;
+    background: #383838;
+    display: inline-block;
+}
+
+.app-url:hover {
+    text-decoration: underline;
 }

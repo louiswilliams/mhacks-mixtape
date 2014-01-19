@@ -15,15 +15,14 @@
         
         
         <div class="centered">
-        
-            <a href="/index.html"><img id="logo" src="queueup_logo.png"></a>
+                <a href="/index.html"><img id="logo" src="queueup_logo_small.png"></a>
             <!-- <h1>queue up</h1> -->
             <br>
             <input class="QupInput" id="playlistCode" placeholder="playlist" type="text" maxlength="12" onkeyup="this.value = this.value.replace(/[^a-zA-Z]/, '')"  />
             <br>
             
-            <button class="QupButton" id="Create">Create</button>
-            <button class="QupButton" id="Join" >Join</button>
+            <a class="QupButton" id="Create" href="#">Create</a>
+            <a class="QupButton" id="Join" href="#">Join</a>
             
             <div id="user_playlists"></div>
             <div id="playlist-url"></div>
