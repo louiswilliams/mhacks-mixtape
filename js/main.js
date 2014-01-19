@@ -1,5 +1,5 @@
-// var WEB_URL = "http://queueup.herokuapp.com";
-var WEB_URL = "http://localhost:3000";
+var WEB_URL = "http://queueup.herokuapp.com";
+// var WEB_URL = "http://localhost:3000";
 var WEB_USER_AUTH_PATH = "/user/auth";
 var WEB_PLAYLIST_CREATE_PATH = "/playlist/create.json";
 var WEB_PLAYLIST_SHOW_PATH = "/playlist"
@@ -13,6 +13,7 @@ require([
     var spotify_user; //Spotify's user model
     var user; // User object retrieved from server
     var playlist;
+    var current_code;
 
     load_data();
 
@@ -48,6 +49,7 @@ require([
     }
 
     function load_playlist(code) {
+        current_code = code;
         var trackArr = new Array();
         var list;
         $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
@@ -95,7 +97,7 @@ require([
 
     function update_playlist(player) {
         console.log(player);
-        load_playlist(get_code());
+        // load_playlist(get_code());
 
         // if (player.data.playing == false) {
         //     console.log(player);
@@ -125,12 +127,13 @@ require([
     }
 
     function get_code() {
-        args = models.application.arguments;
-        if (args[0] == "playlist") {
-            return args[1]
-        } else{
-            return null;
-        }
+        return current_code;
+        // args = models.application.arguments;
+        // if (args[0] == "playlist") {
+        //     return args[1]
+        // } else{
+        //     return null;
+        // }
     }
 
     function remove_last(code) {
