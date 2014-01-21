@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://queueup.herokuapp.com/playlist/louis -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>QueueUp</title>
+  <link data-turbolinks-track="true" href="/css/main.css" media="all" rel="stylesheet">
+  <script data-turbolinks-track="true" src="./QueueUp_files/application-a7ad5c7ce66cb7efb1c59a523af039aa.js"></script>
+  <meta content="authenticity_token" name="csrf-param">
+<meta content="1niACIcnMf2sVaoflInYSnwRZ0ZA8K5Q6OnkfnUdEas=" name="csrf-token">
+</head>
+<body style="">
+<div class = "centered">
+    <img alt="Queueup logo" id="logo" src="queueup_logo.png">
+
+    <p>SIDNEYJAY</p>
+</div>
+    <form accept-charset="UTF-8" action="http://queueup.herokuapp.com/playlist/louis/add" method="post">
+    <div class="track_list_item">
+    <button class="QupButton Upvote" name="track_id" value="1">+<span class="voteCount"> 0</span> </button>
+        </form>
+    <span id="SongData">
+        Lana Del Rey - Blue Jeans (Born To Die - The Paradise Edition)
+    </span>
+    
+    </div>
+    
+    
+    
+<div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="1niACIcnMf2sVaoflInYSnwRZ0ZA8K5Q6OnkfnUdEas="></div>
+
+    <button class="UpvoteClone"></button>
+    
+    <input type="text" name="track_search" id="track_search" placeholder="Search...">
+    <span id="search_results"></span>
+
+<script type="text/javascript">
+playlistCode = "louis";
+
+$("#track_search").keyup(function(e) {
+    query = $("#track_search").val();
+    if (query.length > 0) {
+        $.getJSON("http://ws.spotify.com/search/1/track.json", {q: query}, function(json) {
+            $("#search_results").html("");
+            $.each(json["tracks"], function(i, track) {
+                if (i < 5) {
+                    $("#search_results").append(result_track_format(track));
+                } else {
+                    return false;
+                }
+            })
+        });
+    }
+})
+
+$(".Upvote").click(function(event) {
+    id = $(this).val();
+    $.post("/playlist/" + playlistCode + "/vote", {track_id: id}, function(data) {
+        alert(data);
+        
+    });
+});
+    
+    
+$(".Upvote").click(function(event){
+     $(this).css('color', '#ff0000');
+});
+
+function result_track_format(track) {
+    html = "<div class='search_result_item'>";
+    html += "<button class='QupButton' name='track_url' value='" + track["href"] + "'>";
+    html += track["artists"][0]["name"] + " - " + track["name"] + " (" + track["album"]["name"] + ")";
+    html += "</button></div>";
+    return html;
+}
+
+
+</script>
+
+
+
+
+</body></html>
