@@ -12,11 +12,77 @@ require([
 ], function(models, List, Toplist, Image) {
     var spotify_user; //Spotify's user model
     var user; // User object retrieved from server
-    var playlist;
+    var spotifyPlaylist;
+    var playlistList;
+    var playlistRecord;
     var current_code;
     var current_track;
 
     load_data();
+
+    function PlaylistRecord(code) {
+        this.code = code;
+        this.tracks = new Array();
+        this.playing = 0;
+        this.currentTrack = null;
+        this.nextTrack = null;
+        this.getTracks();
+    }
+
+    PlaylistRecord.prototype.getTracks = function(callback) {
+        var trackArr = new Array();
+        $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + this.code + ".json")
+            .success(function(data) {
+                // console.log(data["tracks"]);
+                $.each(data["tracks"], function(i, val) {
+                    trackArr[i] = models.Track.fromURI(val["url"]);
+                });
+                this.tracks = trackArr;
+                if (this.tracks.length > 0) {
+                    console.log("Current: " + this.tracks[0]);
+                    this.currentTrack = this.tracks[0];
+                    if (callback) {
+                        callback(trackArr);                
+                    }    
+                }
+                console.log(trackArr);
+                
+        });
+    }
+
+    PlaylistRecord.prototype.playNext = function() {
+        if (this.currentTrack) {
+            console.log("PlayNext");
+            this.dequeue(this.currentTrack);
+            models.player.playTrack(this.currentTrack);
+            this.getTracks();
+        }
+        // models.player.playContext(playlist);
+        // tracks = playlist.load("tracks").done(function(loadedPlaylist) {
+        //     loadedPlaylist.tracks.snapshot().done(function(snapshot) {
+        //         if (snapshot.length > 0) {
+        //             var firstTrack = snapshot.get(0);
+        //             console.log(firstTrack);
+
+        //             // image = Image.forTrack(firstTrack, {player: true});
+        //             // $("#single-track-player").html(image.node);
+        //             models.player.playTrack(firstTrack);
+        //             remove_last(firstTrack.uri);
+        //         }
+
+        //     });
+        // });
+    }
+
+    PlaylistRecord.prototype.dequeue = function() {
+        url = this.currentTrack.uri;
+        $.post(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + current_code+ "/remove",
+            {track_url: url}).done(function(data) {
+            console.log(data);
+            // load_playlist(current_code);
+            // window.location.href="spotify:app:queueup:playlist:" + current_code;
+        });
+    }
 
     function load_user_data(u, callback) {
         u.load('username', 'identifier').done(function(u) {
@@ -30,10 +96,9 @@ require([
     function load_data(){
         spotify_user = models.User.fromURI("spotify:user:@");
 
-
-        models.player.addEventListener("change", function(player) {
-            update_playlist(player);
-        });
+        // models.player.addEventListener("change", function(player) {
+        //     update_playlist(player);
+        // });
 
         $("#user_playlists").html("Loading...");
         load_user_data(spotify_user, function(user_data){
@@ -54,63 +119,46 @@ require([
         });
     }
 
-    function popupate_playlist(code, callback) {
-        var trackArr = new Array();
-        var list;
-        $.get(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + code + ".json")
-            .success(function(data) {
-                // console.log(data["tracks"]);
-                $.each(data["tracks"], function(i, val) {
-                    trackArr[i] = models.Track.fromURI(val["url"]);
-                });
-                console.log(trackArr);
+    function refresh_list(tracks) {
+        playlistList.refresh();
+    }
 
-                playlist = models.Playlist.createTemporary(code + new Date().getTime())
-                    .done(function (playlist) {
-                    playlist.load('tracks').done(function(loadedPlaylist) {
-                        loadedPlaylist.tracks.add(trackArr).done(function() {
-                            var list = List.forPlaylist(playlist);
-                            $('#playlist-player').html(list.node);
-
-                            list.init();
-                            if (callback) {
-                                callback(playlist);
-
-                            }
-                        });
+    function show_playlist_tracks(trackArr) {
+        models.Playlist.createTemporary(new Date().getTime())
+            .done(function (playlist) {
+            playlist.load('tracks').done(function(loadedPlaylist) {
+                loadedPlaylist.tracks.clear().done(function() {
+                    loadedPlaylist.tracks.add(trackArr).done(function() {
+                        console.log(trackArr);
+                        playlistList = List.forPlaylist(playlist);
+                        $('#playlist-player').html(playlistList.node);
+                        playlistList.init();
+                        console.log(playlistList);
                     });
                 });
             });
+        }).done(function(p) {
+            spotifyPlaylist = p;
+            console.log(p)
+        });
+
     }
 
     function load_playlist(code, callback) {
-        current_code = code;
+        // current_code = code;
+        playlistRecord = new PlaylistRecord(code);
+        playlistRecord.getTracks(function (tracks) {
+            console.log(tracks);
+            show_playlist_tracks(tracks);
+            callback(playlistRecord);
+        });
+
         $('#playlist-player').html();
-        popupate_playlist(code, callback);
 
         $("#playlist-url").html("<a class='app-url' href='http://queueup.herokuapp.com/playlist/"
             + code + "''> queueup.herokuapp.com/playlist/" + code.toUpperCase()  + "</a><br><p>to add tracks</p>");
     }
 
-
-    function load_next(playlist) {
-        models.player.playContext(playlist);
-        // tracks = playlist.load("tracks").done(function(loadedPlaylist) {
-        //     loadedPlaylist.tracks.snapshot().done(function(snapshot) {
-        //         if (snapshot.length > 0) {
-        //             var firstTrack = snapshot.get(0);
-        //             console.log(firstTrack);
-        //             // image = Image.forTrack(firstTrack, {player: true});
-        //             // $("#single-track-player").html(image.node);
-        //             // models.player.playTrack(firstTrack);
-        //             // remove_last(firstTrack.uri);
-        //         }
-
-        //     });
-        // });
-
-        // remove_last();
-    }        
 
     function update_playlist(player) {
         console.log(player);
@@ -133,7 +181,7 @@ require([
         if (args[0] == "playlist") {
             var code = args[1];
             load_playlist(code, function(playlist) {
-                load_next(playlist);
+                playlist.playNext();
             });
 
         }
@@ -143,18 +191,6 @@ require([
     function get_code() {
         return current_code;
     }
-
-    function remove_last(url) {
-        console.log(url);
-        $.post(WEB_URL + WEB_PLAYLIST_SHOW_PATH + "/" + current_code+ "/remove",
-            {track_url: url}).done(function(data) {
-            // console.log(data);
-            console.log(data);
-            load_playlist(current_code);
-            // window.location.href="spotify:app:queueup:playlist:" + current_code;
-        });   
-    }
-
 
     models.application.load('arguments').done(arguments);
 
